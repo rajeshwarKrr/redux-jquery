@@ -49,7 +49,7 @@ const rootReducer = (state = initialState, action) => {
           newState.mood = "(⊙_⊙)？🙄 🤔";
           break;
         default:
-          newState.mood = "Please click Buttons below";
+          newState.mood = "";
           break;
       }
       return newState;
