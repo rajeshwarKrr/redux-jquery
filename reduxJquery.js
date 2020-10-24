@@ -2,10 +2,10 @@ var initialState = {
   count: 0,
   id: 0,
   todos: [],
+  mood: "Please click Buttons below",
 };
 
 const rootReducer = (state = initialState, action) => {
-  //   debugger;
   switch (action.type) {
     case "INC": {
       const newState = { ...state };
@@ -31,6 +31,28 @@ const rootReducer = (state = initialState, action) => {
         ...newState,
         todos: newState.todos.filter((todo) => action.payload !== todo.id),
       };
+    }
+
+    case "CHANGE_MOOD": {
+      const newState = { ...state };
+      switch (action.payload) {
+        case "happy":
+          newState.mood = ":) 😀 😁 ";
+          break;
+        case "sad":
+          newState.mood = ":( 😥";
+          break;
+        case "angry":
+          newState.mood = "￣へ￣  😣 🤨";
+          break;
+        case "confused":
+          newState.mood = "(⊙_⊙)？🙄 🤔";
+          break;
+        default:
+          newState.mood = "Please click Buttons below";
+          break;
+      }
+      return newState;
     }
 
     default:
@@ -97,5 +119,17 @@ $(document).ready(() => {
     $("#todos").append(newLi);
 
     $("#todoForm").trigger("reset");
+  });
+
+  $("#faceholder #face").text(currentState.mood);
+
+  $("#faceholder").on("click", ".buttons", (e) => {
+    store.dispatch({
+      type: "CHANGE_MOOD",
+      payload: $(e.target)[0].id,
+    });
+
+    let currentState = store.getState();
+    $("#faceholder #face").text(currentState.mood);
   });
 });
